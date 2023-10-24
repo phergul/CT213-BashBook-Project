@@ -3,6 +3,11 @@
 dirPath="../Users"
 user_id="$1"
 
+#check there is a Users directory in the first place
+if [ ! -d "$dirPath" ]; then
+	mkdir "$dirPath"
+fi
+
 #check if there is one parameter for $user_id
 if [ "$#" -ne 1 ]; then
 	echo "nok: no identifier provided or too many arguments" >&2
