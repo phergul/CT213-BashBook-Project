@@ -9,13 +9,12 @@ if [ "$#" -ne 1 ]; then
 	exit 1
 #checks whether that user exists for given id
 elif [ ! -d "$dirPath/$user_id" ]; then
-	echo "nok: user '$user_id' does not exist" >&2
+	echo "nok: user '$user_id' does not exist" >&1
 	exit 1
 fi
 
 #prints start, wall.txt and end for the given user_id
-echo "start_of_file"
-cat $dirPath/$user_id/wall.txt
-echo "end_of_file"
+userWall="start_of_file$(cat "$dirPath/$user_id/wall.txt")end_of_file"
+echo "$userWall"
 
 exit 0
