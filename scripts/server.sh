@@ -3,8 +3,15 @@
 dirPath="../Users"
 pipeDir="./pipes"
 
+trap 'echo -e "\nShutting Down..."; rm -f $pipeDir/server.pipe; exit 0' SIGINT
+
+#checks if the pipes directory exists and creates if not
+if [ ! -d "$pipeDir" ]; then
+	mkdir "$pipeDir"
+fi
+
 #checks if the server pipe exists and creates if not
-if [ ! -p "$pipeDir/server.pipe" ]; then
+if [ ! -e "$pipeDir/server.pipe" ]; then
 	mkfifo $pipeDir/server.pipe
 fi
 
@@ -37,7 +44,7 @@ do
 			./display_wall.sh "$args"  > "$pipeDir/$user_id.pipe"
 			;;
 		*)
-			echo "nok: bad request - Available Commands = {add | post | display}" > "$pipeDir/$user_id.pipe"
+			echo "nok: bad request - Available Commands = {create | add | post | display}" > "$pipeDir/$user_id.pipe"
 			;;
 	esac
 done
