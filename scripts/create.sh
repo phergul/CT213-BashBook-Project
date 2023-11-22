@@ -14,7 +14,7 @@ if [ "$#" -ne 1 ]; then
 	exit 1
 #check whether a directory for the user already exists
 elif [ -d "$dirPath/$user_id" ]; then
-	echo "nok: user already exists" >&2
+	echo "nok: user already exists" >&1
 	exit 2
 fi
 
