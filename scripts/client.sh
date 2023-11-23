@@ -1,6 +1,7 @@
 #!/bin/bash
 
 dirPath="../Users"
+lockDir="./locks"
 pipeDir="./pipes"
 
 #checks for the id being passed as an argument
@@ -10,6 +11,8 @@ if [ "$#" -ne 1 ]; then
 fi
 
 user_id="$1"
+
+./acquire.sh "$lockDir/user_pipe_lock"
 
 #trap command runs code when ctrl+c is pressed (SIGINT)
 #deletes user pipe
@@ -25,6 +28,8 @@ fi
 if [ ! -p "$pipeDir/$user_id.pipe" ]; then
 	mkfifo $pipeDir/$user_id.pipe
 fi
+
+./release.sh "$lockDir/user_pipe_lock"
 
 #if the user doesnt exist calls create for them using a well formed request
 if [ ! -d "$dirPath/Users/$user_id" ]; then
