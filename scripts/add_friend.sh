@@ -1,8 +1,11 @@
 #!/bin/bash
 
 dirPath="../Users"
+lockDir="./locks"
 user_id="$1"
 friend="$2"
+
+./acquire.sh "$lockDir/add_f_lock"
 
 #check if correct number of arguments passed, making sure they are unique
 if [ "$#" -ne 2 ] || [ "$user_id" = "$friend" ]; then
@@ -32,6 +35,8 @@ fi
 #adds friends to each others friends.txt list
 echo "$friend" >> "$dirPath/$user_id/friends.txt"
 echo "$user_id" >> "$dirPath/$friend/friends.txt"
+./release.sh "$lockDir/add_f_lock"
+
 echo "ok: friend added!" >&1
 
 exit 0

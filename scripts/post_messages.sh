@@ -1,6 +1,7 @@
 #!/bin/bash
 
 dirPath="../Users"
+lockDir="./locks"
 sender="$1"
 receiver="$2"
 
@@ -25,12 +26,16 @@ elif [ "$sender" != "$receiver" ]; then
 	fi
 fi
 
+./acquire.sh "$lockDir/post_message_lock"
+
 #shifts 2 arguments to not add sender and receiver id to message
 shift 2
 #$* is the same as #@ but is just one string not array of the arguments
 message="$*"
 
 #prints who the sender is and the message to the receivers wall.txt
-echo "$sender: $message" >> "$dirPath/$receiver/wall.txt" 
+echo "$sender: $message" >> "$dirPath/$receiver/wall.txt"
+./release.sh "$lockDir/post_message_lock"
+
 echo "ok: message posted!" >&1
 exit 0
